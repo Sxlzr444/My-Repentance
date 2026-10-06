@@ -34,6 +34,9 @@ class Theory {
     }
 
     set mistakes(v) {
+        if (this.correctness === true && this._mistakes.length > 0) {
+            throw new Error("correctness 为 true 时不允许有 mistakes");
+        }
         this._mistakes = v;
     }
 }
