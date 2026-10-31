@@ -77,10 +77,10 @@ YundongliInnovativeTheory.mistakes = [
     //"No current in a neutral wire",
 ];
 
-let LeisMathmatics = new Theory("Lei's Mathmatics");
-LeisMathmatics.correctness = false;
-LeisMathmatics.presenter = "Lei Shaowu";
-LeisMathmatics.mistakes = [
+let LeisMathematics = new Theory("Lei's Mathematics");
+LeisMathematics.correctness = false;
+LeisMathematics.presenter = "Lei Shaowu";
+LeisMathematics.mistakes = [
     "1*0=1",
     "2(1+2)=23",
     "1/1/10=1/(1/10)",
