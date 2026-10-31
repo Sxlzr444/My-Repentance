@@ -72,10 +72,21 @@ YundongliInnovativeTheory.mistakes = [
     "Denial of reference frames",
     "Denial of inertia",
     "Denial of Newton's laws",
-    "1*0=1",
     "Period of the Earth's revolution is 5,027,904 years.",
-    "No current in a neutral wire",
+    /* 下面这行错误应该移动到雷氏电学理论中去 */
+    //"No current in a neutral wire",
 ];
+
+let LeisMathmatics = new Theory("Lei's Mathmatics");
+LeisMathmatics.correctness = false;
+LeisMathmatics.presenter = "Lei Shaowu";
+LeisMathmatics.mistakes = [
+    "1*0=1",
+    "2(1+2)=23",
+    "1/1/10=1/(1/10)",
+    "(a+b)*(c+d)=a*c+b*d",
+];
+
 
 let ClassicalMechanics = new Theory("Classical Mechanics");
 ClassicalMechanics.correctness = true;
