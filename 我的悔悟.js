@@ -16,14 +16,23 @@ class person {
     isInManholeCover() {
         return (exists(manholeCover) && (this.position === "manhole cover")) ? true : false;
     }
+    get theories() {
+        return Theory.instances
+            .filter(theory => theory.presenter === this.name)
+            .map(theory => theory.name);
+    }
 }
 
 class Theory {
+    /** 记录 Theroy 的所有实例。 */
+    static instances = [];
+
     constructor(namae) {
         this.name = namae ?? null;
         this.correctness = null;
-        this.persenter = null;
+        this.presenter = null;
         this._mistakes = [];
+        Theory.instances.push(this); //创建一个 Theory 的实例时，将其push进 instances。
     }
 
     get mistakes() {
@@ -34,7 +43,7 @@ class Theory {
     }
 
     set mistakes(v) {
-        if (this.correctness === true && this._mistakes.length > 0) {
+        if (this.correctness === true) {
             throw new Error("correctness 为 true 时不允许有 mistakes");
         }
         this._mistakes = v;
@@ -57,7 +66,7 @@ let think = {
 
 let YundongliInnovativeTheory = new Theory("Yundongli Innovative Theory");
 YundongliInnovativeTheory.correctness = false;
-YundongliInnovativeTheory.persenter = "Lei Shaowu";
+YundongliInnovativeTheory.presenter = "Lei Shaowu";
 YundongliInnovativeTheory.mistakes = [
     "Objects need force to keep moving.",
     "Denial of reference frames",
@@ -70,7 +79,7 @@ YundongliInnovativeTheory.mistakes = [
 
 let ClassicalMechanics = new Theory("Classical Mechanics");
 ClassicalMechanics.correctness = true;
-ClassicalMechanics.persenter = "Isaac Newton";
+ClassicalMechanics.presenter = "Isaac Newton";
 
 const Original = null; //这段是为了让 myRepentance(Original) 这个调用不报错
 
