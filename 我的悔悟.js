@@ -5,7 +5,7 @@ let exists = (a) => {
     return true;
 }
 
-class person {
+class Person {
     constructor(namae) {
         this.name = namae??"anonymous";
         this.faction = "unknown";
@@ -15,6 +15,10 @@ class person {
     }
     isInManholeCover() {
         return (exists(manholeCover) && (this.position === "manhole cover")) ? true : false;
+    }
+    hideUnderneathManholecover(){
+        if(!exists(manholeCover)) throw new Error("没有井盖，无法躲进去！");
+        this.position = "manhole cover";
     }
     get theories() {
         return Theory.instances
@@ -27,26 +31,37 @@ class Theory {
     /** 记录 Theroy 的所有实例。 */
     static instances = [];
 
+    #mistakes = [];
+    #correctness = null;
+
     constructor(namae) {
         this.name = namae ?? null;
         this.correctness = null;
         this.presenter = null;
-        this._mistakes = [];
         Theory.instances.push(this); //创建一个 Theory 的实例时，将其push进 instances。
     }
 
-    get mistakes() {
-        if (this.correctness === true && this._mistakes.length > 0) {
-            throw new Error("correctness 为 true 时不允许有 mistakes");
-        }
-        return this._mistakes;
+    get correctness() {
+        return this.#correctness;
     }
 
+    set correctness(c) {
+        if (typeof c !== "boolean" && c !== null) throw new Error("correctness 只能为 true/false/null");
+        if (this.#mistakes.length > 0 && c === true) throw new Error("存在 mistakes 的理论，correctness 不能设置为true");
+        this.#correctness = c;
+    }
+
+    get mistakes() {
+        if (this.correctness === true && this.#mistakes.length > 0) {
+            throw new Error("correctness 为 true 时不允许有 mistakes，请检查是否通过特殊方法绕过了 setter 直接操作了 #mistakes");
+        }
+        return Object.freeze([...this.#mistakes]);
+    }
     set mistakes(v) {
         if (this.correctness === true) {
             throw new Error("correctness 为 true 时不允许有 mistakes");
         }
-        this._mistakes = v;
+        this.#mistakes = v;
     }
 }
 
@@ -87,7 +102,6 @@ LeisMathematics.mistakes = [
     "(a+b)*(c+d)=a*c+b*d",
 ];
 
-
 let ClassicalMechanics = new Theory("Classical Mechanics");
 ClassicalMechanics.correctness = true;
 ClassicalMechanics.presenter = "Isaac Newton";
@@ -96,7 +110,7 @@ const Original = null; //这段是为了让 myRepentance(Original) 这个调用�
 
 function myRepentance(Original){                                                          /*我的悔悟（原创）*/
     myRepentance.author = "Lei Shaowu";                                                   /*作者 雷绍武*/
-    globalThis.I = new person("Lei Shaowu");                                              /*我叫雷绍武，*/
+    globalThis.I = new Person("Lei Shaowu");                                              /*我叫雷绍武，*/
     I.faction = "826";                                                                    /*我是826！*/
     if (!exists(manholeCover)) {                                                          /*如果没有井盖，*/
         I.motionForce = 0;                                                                /*雷绍武826的运动力=0，*/
