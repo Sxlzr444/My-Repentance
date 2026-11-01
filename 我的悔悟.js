@@ -1,3 +1,5 @@
+/* ————本文件已弃用，最新版我的悔悟程序参见my_repentance.js———— */
+
 let exists = (a) => {
     if (a===undefined||a===null) {
         return false;
