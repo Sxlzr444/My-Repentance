@@ -67,7 +67,7 @@ export class Theory {
         }
         this.#mistakes = v;
     }
-}
+};
 
 export let matchedTheObjectivefacts = (theory) => {
     if (!(theory instanceof Theory)) {
@@ -76,13 +76,27 @@ export let matchedTheObjectivefacts = (theory) => {
     return Boolean(theory.correctness);
 };
 
+
+/**
+ * @typedef {Object} Options    理论的参数
+ * @property {string}        name          理论名称（必填）
+ * @property {string|null}   [presenter]    提出者，默认 null
+ * @property {boolean|null}  [correctness]  正确性，默认 null
+ * @property {string[]|null}       [mistakes]     仅当 correctness === false 时有效
+ */
+
+/**
+ * 工厂函数，用于注册新理论
+ * @param {Options} [options]
+ * @returns {Theory|undefined}
+ */
 export let newTheory = (options = {}) => {
     let t = null;
     try{
         if (options === null || typeof options !== "object" || Array.isArray(options)) {
             throw new Error("newTheory 的参数必须是对象。");
         }
-        const {name, presenter=null, correctness=null, mistakes=void 0} = options;
+        let {name, presenter=null, correctness=null, mistakes} = options;
         t = new Theory(name);
         t.presenter = presenter ?? null;
         t.correctness = correctness;
