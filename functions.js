@@ -16,12 +16,21 @@ export class Person {
         this.hope= "no hope yet.";
         this.motionForce = null;
     }
-    isInManholeCover() {
+    isInManholeCover = () => {
         return (exists(manholeCover) && (this.position === "manhole cover")) ? true : false;
     }
-    hideUnderneathManholecover(){
-        if(!exists(manholeCover)) throw new Error("没有井盖，无法躲进去！");
-        this.position = "manhole cover";
+    hideUnderneathManholecover = () => {
+        try{
+            if(!exists(manholeCover)) throw new Error("没有井盖，无法躲进去！");
+            if(this.isInManholeCover()) {
+                console.warn("已经在井盖里了，进井盖没有效果。");
+                return;
+            }
+            this.position = "manhole cover";
+        }
+        catch (err) {
+            console.error("进井盖失败："+err.message);
+        }
     }
     get theories() {
         return Theory.instances
